@@ -15,6 +15,10 @@
  */
 package com.example.adopet.repository
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Female
+import androidx.compose.material.icons.filled.Male
+import androidx.compose.ui.graphics.Color
 import com.example.adopet.model.Gender
 import com.example.adopet.model.Pet
 import com.example.adopet.model.PetForAdoption
@@ -28,13 +32,13 @@ val dogRandomImages = listOf(
 )
 
 val catRandomImages = listOf(
-    "https://images.unsplash.com/photo-1614676379129-0cb2b6628c5",
+    "https://images.unsplash.com/photo-1592194996308-7b43878e84a6",
     "https://images.unsplash.com/photo-1614102954362-2afd9d4594e5",
     "https://images.unsplash.com/photo-1613915587574-322c40825be1"
 )
 
 val rabbitRandomImages = listOf(
-    "https://images.unsplash.com/photo-1605905225062-965b3149767b",
+    "https://images.unsplash.com/photo-1585110396000-c9ffd4e4b308",
     "https://images.unsplash.com/photo-1607029879874-b24ac9de2eca",
     "https://images.unsplash.com/photo-1606753927971-d1503cb6a849"
 )
@@ -44,6 +48,17 @@ val hamsterRandomImages = listOf(
     "https://images.unsplash.com/photo-1612267168669-679c961c5b31",
     "https://images.unsplash.com/photo-1611952310929-e04cea6baeda"
 )
+
+fun Gender.icon() = when (this) {
+    Gender.MALE -> Icons.Filled.Male
+    Gender.FEMALE -> Icons.Filled.Female
+}
+
+fun Gender.color() = when (this) {
+    Gender.MALE -> Color.Cyan
+    Gender.FEMALE -> Color.Magenta
+}
+
 
 val petsForAdoption: List<PetForAdoption> = listOf(
     // DOGS
