@@ -61,9 +61,9 @@ class PetsViewModel(
         viewModelScope.launch {
             try {
                 if (isSelected) {
-                    categoriesSelected.add(petType)
+                    categoriesSelected + petType
                 } else {
-                    categoriesSelected.remove(petType)
+                    categoriesSelected - petType
                 }
                 petsRepository.filterByType(categoriesSelected).run {
                     _petsUiState.value = PetsUiState.Success(this)
