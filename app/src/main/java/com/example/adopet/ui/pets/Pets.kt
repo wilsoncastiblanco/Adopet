@@ -1,5 +1,6 @@
 package com.example.adopet.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,16 +20,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.adopet.PetsUiState
+import com.example.adopet.R
 import com.example.adopet.repository.color
 import com.example.adopet.repository.icon
 
 @Composable
-fun Pets(modifier: Modifier, petsUiState: PetsUiState) {
+fun Pets(modifier: Modifier, petsUiState: PetsUiState, openPetDetail: (String) -> Unit,) {
     when (petsUiState) {
         is PetsUiState.Error -> Text("Error!")
         is PetsUiState.Loading -> CircularProgressIndicator()
@@ -43,7 +46,8 @@ fun Pets(modifier: Modifier, petsUiState: PetsUiState) {
                             Card(
                                 modifier = Modifier
                                     .padding(8.dp)
-                                    .height(250.dp),
+                                    .height(250.dp)
+                                    .clickable { openPetDetail(pet.id.toString()) },
                                 elevation = 4.dp,
                                 shape = RoundedCornerShape(18.dp)
                             ) {
@@ -60,6 +64,7 @@ fun Pets(modifier: Modifier, petsUiState: PetsUiState) {
                                                 )
                                             ),
                                         contentScale = ContentScale.Crop,
+                                        placeholder = painterResource(id = R.drawable.ic_dog)
                                     )
                                     Column(
                                         modifier = Modifier.padding(
@@ -98,13 +103,13 @@ fun PetsTitle() {
         modifier = Modifier.fillMaxWidth()
     ) {
         Text(text = "All Pets", fontSize = 22.sp)
-        SeeAll(modifier)
+        SeeAll()
     }
 }
 
 
 @Composable
-fun SeeAll(modifier: Modifier) {
+fun SeeAll() {
     Text(text = "See All", fontSize = 14.sp)
 }
 

@@ -5,44 +5,31 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.example.adopet.NavigationItemsProvider
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import com.example.adopet.routes
 
 @Composable
-fun AdoptBottomBarContent() {
-    var selectedIndex by rememberSaveable {
-        mutableStateOf(0)
-    }
-    AdoptBottomBarStateless(selectedIndex) { index ->
-        selectedIndex = index
-    }
-}
-
-@Composable
-fun AdoptBottomBarStateless(selectedIndex: Int, onNavItemChange: (Int) -> Unit) {
+fun AdoptBottomNavigation(destination: NavDestination?, onSelectNavigation: (String) -> Unit) {
     BottomNavigation(
         modifier = Modifier.clip(
             shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
         ),
         elevation = 4.dp
     ) {
-        NavigationItemsProvider.navigationItems()
-            .forEachIndexed { index, adoptNavItem ->
+        routes.forEach { screen ->
                 BottomNavigationItem(
-                    selected = selectedIndex == index,
+                    selected = destination?.hierarchy?.any { it.route == screen.route } == true,
                     icon = {
                         Icon(
-                            imageVector = adoptNavItem.icon,
-                            contentDescription = adoptNavItem.contentDescription
+                            imageVector = screen.icon,
+                            contentDescription = screen.route
                         )
                     },
-                    onClick = { onNavItemChange(index) }
+                    onClick = { onSelectNavigation(screen.route) }
                 )
             }
     }

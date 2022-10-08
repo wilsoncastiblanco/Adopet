@@ -15,4 +15,8 @@ class PetsInMemoryRepository : PetsRepository {
         if (categoriesSelected.isEmpty()) return getPets()
         return getPets().filter { it.type in categoriesSelected }
     }
+
+    override suspend fun getById(petId: String): Pet? {
+        return  getPets().find { it.id == petId.toLong() }
+    }
 }
