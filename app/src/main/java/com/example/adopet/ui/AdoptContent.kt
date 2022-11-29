@@ -17,17 +17,16 @@ import com.example.adopet.CategoriesUiState
 import com.example.adopet.PetsUiState
 import com.example.adopet.PetsViewModel
 import com.example.adopet.model.PetType
+import com.example.adopet.ui.pets.Pets
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
-fun AdoptContent(
-    modifier: Modifier,
+fun PetsContent(
     openPetDetail: (String) -> Unit,
     petsViewModel: PetsViewModel = viewModel()) {
     val categoriesUiState by petsViewModel.categoriesUiState.collectAsStateWithLifecycle()
     val petsUiState by petsViewModel.petsUiState.collectAsStateWithLifecycle()
-    AdoptContentStateless(
-        modifier = modifier,
+    PetsStateless(
         petsUiState = petsUiState,
         categoriesUiState = categoriesUiState,
         onCategoryClick = petsViewModel::filterPets,
@@ -35,21 +34,24 @@ fun AdoptContent(
     )
 }
 
+
 @Composable
-fun AdoptContentStateless(
-    modifier: Modifier,
+fun PetsStateless(
     petsUiState: PetsUiState,
     categoriesUiState: CategoriesUiState,
     onCategoryClick: (PetType, Boolean) -> Unit,
     openPetDetail: (String) -> Unit,
 ) {
+
     Scaffold(
         topBar = { AdoptTopBar() }
     ) { padding ->
+        val modifierWithPadding = Modifier.padding(padding)
         Column {
-            Greeting(modifier.padding(padding), name = "Denis")
-            PetsCategories(modifier, categoriesUiState, onCategoryClick)
-            Pets(modifier, petsUiState, openPetDetail)
+            SearchBar(modifierWithPadding)
+            Greeting(modifierWithPadding, name = "Compose!")
+            PetsCategories(modifierWithPadding, categoriesUiState, onCategoryClick)
+            Pets(modifierWithPadding, petsUiState, openPetDetail)
         }
     }
 }

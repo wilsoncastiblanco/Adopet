@@ -1,4 +1,4 @@
-package com.example.adopet.ui
+package com.example.adopet.ui.pets
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,78 +22,111 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.adopet.PetsUiState
 import com.example.adopet.R
+import com.example.adopet.model.Gender
+import com.example.adopet.model.Pet
+import com.example.adopet.model.PetType
+import com.example.adopet.model.Size
 import com.example.adopet.repository.color
+import com.example.adopet.repository.dogRandomImages
 import com.example.adopet.repository.icon
+import com.example.adopet.ui.theme.AdopetTheme
 
 @Composable
-fun Pets(modifier: Modifier, petsUiState: PetsUiState, openPetDetail: (String) -> Unit,) {
+fun Pets(
+    modifier: Modifier,
+    petsUiState: PetsUiState,
+    openPetDetail: (String) -> Unit
+) {
     when (petsUiState) {
         is PetsUiState.Error -> Text("Error!")
         is PetsUiState.Loading -> CircularProgressIndicator()
         is PetsUiState.Success -> {
             Column {
                 PetsTitle()
-                LazyVerticalGrid(
-                    modifier = modifier,
-                    columns = GridCells.Fixed(2),
-                    content = {
-                        items(petsUiState.pets) { pet ->
-                            Card(
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .height(250.dp)
-                                    .clickable { openPetDetail(pet.id.toString()) },
-                                elevation = 4.dp,
-                                shape = RoundedCornerShape(18.dp)
-                            ) {
-                                Column {
-                                    AsyncImage(
-                                        model = pet.images.first(),
-                                        contentDescription = pet.name,
-                                        modifier = Modifier
-                                            .size(190.dp)
-                                            .clip(
-                                                RoundedCornerShape(
-                                                    bottomStart = 28.dp,
-                                                    bottomEnd = 28.dp
-                                                )
-                                            ),
-                                        contentScale = ContentScale.Crop,
-                                        placeholder = painterResource(id = R.drawable.ic_dog)
-                                    )
-                                    Column(
-                                        modifier = Modifier.padding(
-                                            start = 24.dp,
-                                            top = 8.dp,
-                                            bottom = 8.dp,
-                                            end = 16.dp
-                                        )
-                                    ) {
-                                        Row {
-                                            Text(text = pet.name, fontWeight = FontWeight.Bold)
-                                            Icon(
-                                                imageVector = pet.gender.icon(),
-                                                contentDescription = pet.gender.name,
-                                                tint = pet.gender.color()
-                                            )
-                                        }
-                                        Text(text = "${pet.age} year", fontSize = 12.sp)
-                                    }
-                                }
-
-                            }
-                        }
-                    }
-                )
+                PetsCollection(modifier, petsUiState = petsUiState, openPetDetail = openPetDetail)
             }
         }
     }
+}
 
+@Composable
+fun PetsCollection(
+    modifier: Modifier,
+    petsUiState: PetsUiState.Success,
+    openPetDetail: (String) -> Unit
+) {
+    LazyVerticalGrid(
+        modifier = modifier,
+        columns = GridCells.Fixed(2),
+        content = {
+            items(petsUiState.pets, key = { pet -> pet.id }) { pet ->
+                PetCard(pet, openPetDetail)
+            }
+        }
+    )
+}
+
+@Composable
+fun PetCard(pet: Pet, openPetDetail: (String) -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(8.dp)
+            .height(250.dp)
+            .clickable { openPetDetail(pet.id.toString()) },
+        elevation = 4.dp,
+        shape = RoundedCornerShape(18.dp)
+    ) {
+        Column {
+            PetImage(pet = pet)
+            PetDescription(pet = pet)
+        }
+    }
+}
+
+@Composable
+fun PetImage(pet: Pet) {
+    AsyncImage(
+        model = pet.images.first(),
+        contentDescription = pet.name,
+        modifier = Modifier
+            .size(190.dp)
+            .clip(
+                RoundedCornerShape(
+                    bottomStart = 28.dp,
+                    bottomEnd = 28.dp
+                )
+            ),
+        contentScale = ContentScale.Crop,
+        placeholder = painterResource(id = R.drawable.ic_dog)
+    )
+}
+
+@Composable
+fun PetDescription(pet: Pet) {
+    Column(
+        modifier = Modifier.padding(
+            start = 24.dp,
+            top = 8.dp,
+            bottom = 8.dp,
+            end = 16.dp
+        )
+    ) {
+        Row {
+            Text(text = pet.name, fontWeight = FontWeight.Bold)
+            Icon(
+                imageVector = pet.gender.icon(),
+                contentDescription = pet.gender.name,
+                tint = pet.gender.color()
+            )
+        }
+        Text(text = "${pet.age} years", fontSize = 12.sp)
+    }
 }
 
 @Composable

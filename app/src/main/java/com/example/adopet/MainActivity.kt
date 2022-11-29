@@ -23,7 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.adopet.ui.AdoptBottomNavigation
-import com.example.adopet.ui.AdoptContent
+import com.example.adopet.ui.PetsContent
 import com.example.adopet.ui.pets.PetDetail
 import com.example.adopet.ui.profile.ForgotPassword
 import com.example.adopet.ui.profile.Profile
@@ -86,8 +86,7 @@ private fun NavGraphBuilder.pets(
     modifier: Modifier
 ) {
     composable(Routes.Home.route) {
-        AdoptContent(
-            modifier,
+        PetsContent(
             openPetDetail = { petId ->
                 navController.navigate(InternalRoutes.PetDetail.createRoute(petId))
             }

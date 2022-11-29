@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Adopet</string>
+    <string name="hint_search">Search a Puppy</string>
 </resources>
