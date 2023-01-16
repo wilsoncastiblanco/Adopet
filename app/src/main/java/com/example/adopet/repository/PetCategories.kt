@@ -53,9 +53,9 @@ val petCategories: List<PetCategory> = listOf(
 )
 
 object PetIcon {
-    const val dog = R.drawable.ic_dog
-    const val cat = R.drawable.ic_cat
-    const val mouse = R.drawable.ic_mouse
-    const val rabbit = R.drawable.ic_rabbit
-    const val pig = R.drawable.ic_pig
+    val dog = R.drawable.ic_dog
+    val cat = R.drawable.ic_cat
+    val mouse = R.drawable.ic_mouse
+    val rabbit = R.drawable.ic_rabbit
+    val pig = R.drawable.ic_pig
 }
