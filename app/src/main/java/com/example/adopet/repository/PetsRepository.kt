@@ -7,4 +7,5 @@ interface PetsRepository {
     suspend fun getPets(): List<Pet>
     suspend fun filterByType(categoriesSelected: Set<PetType>): List<Pet>
     suspend fun getById(petId: String): Pet?
+    suspend fun searchPet(pet: String): List<Pet>
 }

@@ -1,7 +1,9 @@
 package com.example.adopet.repository
 
+import androidx.compose.ui.text.toLowerCase
 import com.example.adopet.model.Pet
 import com.example.adopet.model.PetType
+import java.util.Locale
 
 class PetsInMemoryRepository : PetsRepository {
 
@@ -18,5 +20,9 @@ class PetsInMemoryRepository : PetsRepository {
 
     override suspend fun getById(petId: String): Pet? {
         return  getPets().find { it.id == petId.toLong() }
+    }
+
+    override suspend fun searchPet(pet: String): List<Pet> {
+        return getPets().filter { it.name.lowercase().contains(pet.lowercase()) }
     }
 }

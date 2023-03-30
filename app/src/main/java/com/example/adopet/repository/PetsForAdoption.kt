@@ -60,6 +60,8 @@ fun Gender.color() = when (this) {
 }
 
 
+
+
 val petsForAdoption: List<PetForAdoption> = listOf(
     // DOGS
     PetForAdoption(
@@ -248,3 +250,6 @@ val petsForAdoption: List<PetForAdoption> = listOf(
         description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus a cursus eros. Donec at dapibus justo. In blandit, risus eu fringilla viverra, urna urna varius sapien, in euismod sem neque in erat. Suspendisse convallis scelerisque nisi vel mattis. Donec tempus lectus in metus commodo, et pulvinar ipsum pulvinar. "
     ),
 )
+
+
+val pets = petsForAdoption.map { it.pet }

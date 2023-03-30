@@ -74,6 +74,17 @@ class PetsViewModel(
         }
     }
 
+    fun searchPet(pet: String) {
+        viewModelScope.launch {
+            try {
+                val results = petsRepository.searchPet(pet)
+                _petsUiState.value = PetsUiState.Success(results)
+            } catch (exception: Exception) {
+                _petsUiState.value = PetsUiState.Error(exception.message ?: "An unexpected error happened filtering the Pets!!")
+            }
+        }
+    }
+
 }
 
 sealed interface CategoriesUiState {
