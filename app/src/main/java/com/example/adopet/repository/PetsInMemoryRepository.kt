@@ -1,9 +1,7 @@
 package com.example.adopet.repository
 
-import androidx.compose.ui.text.toLowerCase
 import com.example.adopet.model.Pet
 import com.example.adopet.model.PetType
-import java.util.Locale
 
 class PetsInMemoryRepository : PetsRepository {
 
