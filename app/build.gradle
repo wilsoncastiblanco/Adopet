@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.adopet'
+    namespace 'com.servall.adopet'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.adopet"
+        applicationId "com.servall.adopet"
         minSdk 24
         targetSdk 33
         versionCode 1
