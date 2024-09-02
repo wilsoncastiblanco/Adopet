@@ -2,8 +2,6 @@ package com.example.adopet.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,37 +20,37 @@ import com.example.adopet.ui.pets.Pets
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun PetsContent(
+    modifier: Modifier,
     openPetDetail: (String) -> Unit,
-    petsViewModel: PetsViewModel = viewModel()) {
+    petsViewModel: PetsViewModel = viewModel()
+) {
     val categoriesUiState by petsViewModel.categoriesUiState.collectAsStateWithLifecycle()
     val petsUiState by petsViewModel.petsUiState.collectAsStateWithLifecycle()
     PetsStateless(
+        modifier = modifier,
         petsUiState = petsUiState,
         categoriesUiState = categoriesUiState,
         onCategoryClick = petsViewModel::filterPets,
-        openPetDetail = openPetDetail
+        openPetDetail = openPetDetail,
+        onSearchPet = petsViewModel::searchPets
     )
 }
 
 
 @Composable
 fun PetsStateless(
+    modifier: Modifier,
     petsUiState: PetsUiState,
     categoriesUiState: CategoriesUiState,
     onCategoryClick: (PetType, Boolean) -> Unit,
     openPetDetail: (String) -> Unit,
+    onSearchPet: (String) -> Unit,
 ) {
-
-    Scaffold(
-        topBar = { AdoptTopBar() }
-    ) { padding ->
-        val modifierWithPadding = Modifier.padding(padding)
-        Column {
-            SearchBar(modifierWithPadding)
-            Greeting(modifierWithPadding, name = "Compose!")
-            PetsCategories(modifierWithPadding, categoriesUiState, onCategoryClick)
-            Pets(modifierWithPadding, petsUiState, openPetDetail)
-        }
+    Column {
+        SearchBar(modifier, onSearchPet = onSearchPet)
+        Greeting(modifier, name = "Compose!")
+        PetsCategories(modifier, categoriesUiState, onCategoryClick)
+        Pets(modifier, petsUiState, openPetDetail)
     }
 }
 

@@ -40,7 +40,9 @@ class PetsViewModel(
                     _petsUiState.value = PetsUiState.Success(this)
                 }
             } catch (exception: Exception) {
-                _petsUiState.value = PetsUiState.Error(exception.message ?: "An unexpected error happened with the Pets!!")
+                _petsUiState.value = PetsUiState.Error(
+                    exception.message ?: "An unexpected error happened with the Pets!!"
+                )
             }
         }
     }
@@ -52,7 +54,9 @@ class PetsViewModel(
                     _categoriesUiState.value = CategoriesUiState.Success(this)
                 }
             } catch (exception: Exception) {
-                _categoriesUiState.value = CategoriesUiState.Error(exception.message ?: "An unexpected error happened with the Categories!!")
+                _categoriesUiState.value = CategoriesUiState.Error(
+                    exception.message ?: "An unexpected error happened with the Categories!!"
+                )
             }
         }
     }
@@ -69,7 +73,23 @@ class PetsViewModel(
                     _petsUiState.value = PetsUiState.Success(this)
                 }
             } catch (exception: Exception) {
-                _petsUiState.value = PetsUiState.Error(exception.message ?: "An unexpected error happened filtering the Pets!!")
+                _petsUiState.value = PetsUiState.Error(
+                    exception.message ?: "An unexpected error happened filtering the Pets!!"
+                )
+            }
+        }
+    }
+
+    fun searchPets(query: String) {
+        viewModelScope.launch {
+            try {
+                petsRepository.search(query).run {
+                    _petsUiState.value = PetsUiState.Success(this)
+                }
+            } catch (exception: Exception) {
+                _petsUiState.value = PetsUiState.Error(
+                    exception.message ?: "An unexpected error happened searching the Pets!!"
+                )
             }
         }
     }

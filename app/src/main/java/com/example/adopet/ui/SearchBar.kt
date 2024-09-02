@@ -2,10 +2,8 @@ package com.example.adopet.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Icon
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -14,7 +12,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,8 +25,12 @@ import com.example.adopet.R
 import com.example.adopet.ui.theme.AdopetTheme
 
 @Composable
-fun SearchBar(modifier: Modifier) {
-    var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
+fun SearchBar(modifier: Modifier, onSearchPet: (String) -> Unit) {
+    var textFieldValue by rememberSaveable(stateSaver = TextFieldValue.Saver) {
+        mutableStateOf(
+            TextFieldValue("")
+        )
+    }
     Box {
         Row(
             modifier = Modifier.padding(8.dp),
@@ -36,7 +38,10 @@ fun SearchBar(modifier: Modifier) {
         ) {
             TextField(
                 value = textFieldValue.text,
-                onValueChange = { textFieldValue = TextFieldValue(it) },
+                onValueChange = {
+                    textFieldValue = TextFieldValue(it)
+                    onSearchPet(it)
+                },
                 modifier = Modifier.fillMaxWidth(),
                 colors = TextFieldDefaults.textFieldColors(
                     focusedIndicatorColor = Color.Transparent,
@@ -60,6 +65,11 @@ fun SearchBar(modifier: Modifier) {
 @Composable
 fun SearchBarPreview() {
     AdopetTheme {
-        SearchBar(Modifier.padding(8.dp).fillMaxWidth())
+        SearchBar(
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            {}
+        )
     }
 }

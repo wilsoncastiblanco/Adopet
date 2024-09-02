@@ -87,6 +87,7 @@ private fun NavGraphBuilder.pets(
 ) {
     composable(Routes.Home.route) {
         PetsContent(
+            modifier = modifier,
             openPetDetail = { petId ->
                 navController.navigate(InternalRoutes.PetDetail.createRoute(petId))
             }

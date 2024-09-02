@@ -17,6 +17,10 @@ class PetsInMemoryRepository : PetsRepository {
     }
 
     override suspend fun getById(petId: String): Pet? {
-        return  getPets().find { it.id == petId.toLong() }
+        return getPets().find { it.id == petId.toLong() }
+    }
+
+    override suspend fun search(query: String): List<Pet> {
+        return getPets().filter { it.name.lowercase().contains(query.lowercase()) }
     }
 }
