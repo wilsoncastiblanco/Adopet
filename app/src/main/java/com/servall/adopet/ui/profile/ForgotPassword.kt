@@ -41,7 +41,6 @@ fun ForgotPassword(
                         )
                     }
                 },
-                backgroundColor = Color.White
             )
         }
     ) { padding ->

@@ -54,7 +54,6 @@ fun PetDetailContent(
                         )
                     }
                 },
-                backgroundColor = Color.White
             )
         }
 
