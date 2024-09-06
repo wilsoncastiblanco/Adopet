@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class PetsViewModel(
     private val categoriesRepository: CategoriesRepository = CategoriesInMemoryRepository(),
-    private val petsRepository: PetsRepository = PetsInMemoryRepository()
+    private val petsRepository: PetsRepository = PetsInMemoryRepository
 ) : ViewModel() {
 
     private val _categoriesUiState = MutableStateFlow<CategoriesUiState>(CategoriesUiState.Loading)

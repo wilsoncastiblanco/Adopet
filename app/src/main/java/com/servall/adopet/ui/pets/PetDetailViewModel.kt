@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 class PetDetailViewModel(
     private val petId: String,
-    private val petsRepository: PetsRepository = PetsInMemoryRepository()
+    private val petsRepository: PetsRepository = PetsInMemoryRepository
 ) : ViewModel() {
 
     private val _petDetailUiState: MutableStateFlow<PetDetailUiState> =
@@ -41,10 +41,25 @@ class PetDetailViewModel(
         }
     }
 
+    fun saveFavorite(petId: String) {
+        viewModelScope.launch {
+            try {
+                val isFavorite = petsRepository.saveFavorite(petId)
+                _petDetailUiState.value = PetDetailUiState.Success(petsRepository.getById(petId)!!, isFavorite = isFavorite)
+
+            } catch (exception: Exception) {
+                _petDetailUiState.value = PetDetailUiState.Error(
+                    exception.message ?: "There was an issue saving the favorite"
+                )
+            }
+        }
+
+    }
+
 }
 
 sealed class PetDetailUiState {
-    data class Success(val pet: Pet) : PetDetailUiState()
+    data class Success(val pet: Pet, val isFavorite: Boolean = false) : PetDetailUiState()
     data class Error(val message: String) : PetDetailUiState()
     object Loading : PetDetailUiState()
 }

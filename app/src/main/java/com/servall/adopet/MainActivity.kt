@@ -24,6 +24,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.servall.adopet.ui.AdoptBottomNavigation
 import com.servall.adopet.ui.PetsContent
+import com.servall.adopet.ui.favorites.FavoritesScreen
 import com.servall.adopet.ui.pets.PetDetail
 import com.servall.adopet.ui.profile.ForgotPassword
 import com.servall.adopet.ui.profile.Profile
@@ -69,12 +70,11 @@ fun AdoptApp() {
         content = { padding ->
             NavHost(navController = navController, startDestination = Routes.Home.route) {
                 pets(navController, Modifier.padding(padding))
-                profile(navController)
                 composable(Routes.Favorites.route) {
-                    Text("Favorites!!")
-                }
-                composable(Routes.Notifications.route) {
-                    Text("You have 0 notifications")
+                    FavoritesScreen(
+                        modifier = Modifier.padding(padding),
+                        navigateUp = navController::navigateUp
+                    )
                 }
             }
         }
@@ -100,23 +100,6 @@ private fun NavGraphBuilder.pets(
         PetDetail(
             navigateUp = navController::navigateUp,
             petId = backStackEntry.arguments?.getString("petId")!!
-        )
-    }
-}
-
-private fun NavGraphBuilder.profile(
-    navController: NavController,
-) {
-    composable(Routes.Profile.route) {
-        Profile(
-            openForgotPassword = {
-                navController.navigate(InternalRoutes.ForgotPassword.createRoute())
-            }
-        )
-    }
-    composable(InternalRoutes.ForgotPassword.createRoute()) {
-        ForgotPassword(
-            navigateUp = navController::navigateUp
         )
     }
 }

@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Adopet</string>
     <string name="hint_search">Search a Puppy</string>
+    <string name="detail_puppy_age">Age</string>
+    <string name="detail_puppy_size">Size</string>
+    <string name="detail_puppy_gender">Gender</string>
+    <string name="button_want_this_puppy">I Want This Puppy</string>
+    <plurals name="detail_puppy_age_plural">
+        <item quantity="one">%s year</item>
+        <item quantity="other">%s years</item>
+    </plurals>
+
 </resources>

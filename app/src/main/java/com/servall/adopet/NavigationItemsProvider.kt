@@ -10,13 +10,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 sealed class Routes(val icon: ImageVector, val route: String) {
     object Home: Routes(Icons.Filled.Home, "home")
     object Favorites: Routes(Icons.Filled.Favorite, "favorites")
-    object Profile: Routes(Icons.Filled.AccountCircle, "profile")
-    object Notifications: Routes(Icons.Filled.Notifications, "notifications")
 }
 
 sealed class InternalRoutes(val root: Routes, val route: String) {
     fun createRoute() = "${root.route}/$route"
-    object ForgotPassword: InternalRoutes(Routes.Profile, "forgot-password")
     object PetDetail: InternalRoutes(Routes.Home, "pet-detail/{petId}") {
         fun createRoute(petId: String): String {
             return "${root.route}/pet-detail/$petId"
@@ -27,6 +24,4 @@ sealed class InternalRoutes(val root: Routes, val route: String) {
 val routes = listOf(
     Routes.Home,
     Routes.Favorites,
-    Routes.Profile,
-    Routes.Notifications
 )
